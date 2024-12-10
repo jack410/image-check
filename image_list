@@ -1,5 +1,5 @@
 docker-images-prod.nexus.esteeonline.cn/stardust-account-acceptance:0.16.1
-docker-images-prod.nexus.esteeonline.cn/stardust-account-addressvalidation:2.9.0
+docker-images-prod.nexus.esteeonline.cn/stardust-account-addressvalidation:2.9.1
 docker-images-prod.nexus.esteeonline.cn/stardust-account-auth:0.25.1
 docker-images-prod.nexus.esteeonline.cn/stardust-account-care-auth:0.86.0
 docker-images-prod.nexus.esteeonline.cn/stardust-account-clientmgmt:0.35.0
