@@ -2,7 +2,7 @@
 ### Image Availability Check
 | Image | Status |
 |-------|--------|
-| docker-images-prod.nexus.esteeonline.cn/stardust-account-acceptance:0.16.1 | ✅ |
+| docker-images-prod.nexus.esteeonline.cn/stardust-account-acceptance:0.16.10 | ✅ |
 | docker-images-prod.nexus.esteeonline.cn/stardust-account-addressvalidation:2.9.1 | ✅ |
 | docker-images-prod.nexus.esteeonline.cn/stardust-account-auth:0.25.1 | ✅ |
 | docker-images-prod.nexus.esteeonline.cn/stardust-account-care-auth:0.86.0 | ✅ |
