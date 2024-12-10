@@ -54,6 +54,7 @@ jobs:
 
       - name: Update README with results
         run: |
+          echo > README.md
           echo "### Image Availability Check" >> README.md
           echo "| Image | Status |" >> README.md
           echo "|-------|--------|" >> README.md
