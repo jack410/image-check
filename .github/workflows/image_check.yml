@@ -6,7 +6,6 @@ on:
       - image_list
 
 permissions:
-  id-token: write
   contents: write
 
 jobs:
