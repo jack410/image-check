@@ -59,9 +59,9 @@ jobs:
           echo "|-------|--------|" >> README.md
           for image in $IMAGE_LIST; do
             if [[ " ${missing_images[@]} " =~ " $image " ]]; then
-              echo "| $image | ❌ Missing |" >> README.md
+              echo "| $image | ❌ |" >> README.md
             else
-              echo "| $image | ✅ Available |" >> README.md
+              echo "| $image | ✅ |" >> README.md
             fi
           done
           git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
