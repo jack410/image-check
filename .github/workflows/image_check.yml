@@ -1,0 +1,71 @@
+name: Check Images in Nexus
+
+on:
+  push:
+    paths:
+      - image_list
+
+permissions:
+  id-token: write
+  contents: write
+
+jobs:
+  Image-check-action:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v2
+
+
+      - name: Set variables
+        env:
+          NEXUS_URL: ${{ secrets.CN_NEXUS_URL }}
+          REPO_NAME: ${{ secrets.CN_REPO_NAME }}
+        run: |
+          echo "NEXUS_URL=${NEXUS_URL}" >> $GITHUB_ENV
+          echo "REPO_NAME=${REPO_NAME}" >> $GITHUB_ENV
+
+      - name: Read image list
+        id: read_images
+        run: |
+          echo "IMAGE_LIST<<EOF" >> $GITHUB_ENV
+          cat image_list >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+
+      # - name: Check images against Nexus
+      #   id: check_images
+      #   run: |
+      #     missing_images=()
+      #     for image in $IMAGE_LIST; do
+      #       response=$(curl -s -X GET "${NEXUS_URL}/service/rest/v1/search?repository=${REPO_NAME}&docker.imageName=${image%%:*}&docker.imageTag=${image##*:}")
+      #       if [[ $(echo "$response" | jq '.items | length') -eq 0 ]]; then
+      #         missing_images+=("$image")
+      #       fi
+      #     done
+      #     echo "MISSING_IMAGES<<EOF" >> $GITHUB_ENV
+      #     printf "%s\n" "${missing_images[@]}" >> $GITHUB_ENV
+      #     echo "EOF" >> $GITHUB_ENV
+
+      # - name: Send Slack alert if images are missing
+      #   if: env.MISSING_IMAGES != ''
+      #   run: |
+      #     curl -X POST -H 'Content-type: application/json' --data "{\"text\":\"Missing images: $(echo $MISSING_IMAGES | tr '\n' ', ')\"}" ${{ secrets.CNOPS_SLACK_WEBHOOK_URL }}
+
+      - name: Update README with results
+        run: |
+          echo "### Image Availability Check" >> README.md
+          echo "| Image | Status |" >> README.md
+          echo "|-------|--------|" >> README.md
+          for image in $IMAGE_LIST; do
+            if [[ " ${missing_images[@]} " =~ " $image " ]]; then
+              echo "| $image | ❌ Missing |" >> README.md
+            else
+              echo "| $image | ✅ Available |" >> README.md
+            fi
+          done
+          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add README.md
+          git commit -m "Update README with image availability check results"
+          git push origin master
